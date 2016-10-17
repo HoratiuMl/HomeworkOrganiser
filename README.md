@@ -1,5 +1,5 @@
 # About
-This application allows students to organize their assigned homeworks, in a manner very similar to a to-do list application.
+This application allows students to organise their assigned homeworks, in a manner very similar to a to-do list application.
 
 # Planned features
 - Registering new subjects and homeworks
