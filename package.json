@@ -1,0 +1,19 @@
+{
+  "name": "homework-organiser",
+  "version": "1.0.0",
+  "description": "Homework organiser for university students",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HoratiuMl/HomeworkOrganiser.git"
+  },
+  "keywords": [
+    "homework;organiser;university;student"
+  ],
+  "author": "Horațiu Mlendea",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/HoratiuMl/HomeworkOrganiser/issues"
+  },
+  "homepage": "https://github.com/HoratiuMl/HomeworkOrganiser#readme"
+}
