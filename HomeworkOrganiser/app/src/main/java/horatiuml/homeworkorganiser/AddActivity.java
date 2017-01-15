@@ -8,8 +8,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,22 +52,22 @@ public class AddActivity extends AppCompatActivity {
         String deadline = mDeadline.getText().toString();
         String grade = mGrade.getText().toString();
 
-        String LOGIN_URL = "http://192.168.0.22:5000/api/Homework";
+        String REQUEST_URL = "http://10.0.2.2:5000/api/Homework";
         Map<String,String> params = new HashMap<String,String>();
         params.put("title", title);
         params.put("description", description);
         params.put("deadline", deadline);
         params.put("grade", grade);
 
-        CustomRequest jsonObjectRequest = new CustomRequest(Request.Method.POST, LOGIN_URL, params,
+        CustomRequest jsonObjectRequest = new CustomRequest(Request.Method.POST, REQUEST_URL, params,
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getBoolean("success")){
-
+                                // TODO: Inform the user that the request was sucessful
                             } else {
-
+                                /// TODO: Inform the user that the request failed (and why)
                             }
                         } catch (JSONException e) {
                             // TODO: Handle exception
@@ -77,5 +80,9 @@ public class AddActivity extends AppCompatActivity {
                 // TODO: Handle error response
             }
         });
+
+        jsonObjectRequest.setTag("AddTag");
+
+        Volley.newRequestQueue(AddActivity.this).add(jsonObjectRequest);
     }
 }
