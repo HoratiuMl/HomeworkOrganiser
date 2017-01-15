@@ -1,4 +1,4 @@
-package homeworkorganiser.homeworkorganiser;
+package horatiuml.homeworkorganiser;
 
 import org.junit.Test;
 

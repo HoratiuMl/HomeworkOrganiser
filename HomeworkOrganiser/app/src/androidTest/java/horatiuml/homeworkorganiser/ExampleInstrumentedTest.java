@@ -1,4 +1,4 @@
-package homeworkorganiser.homeworkorganiser;
+package horatiuml.homeworkorganiser;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("homeworkorganiser.homeworkorganiser", appContext.getPackageName());
+        assertEquals("horatiuml.homeworkorganiser", appContext.getPackageName());
     }
 }
