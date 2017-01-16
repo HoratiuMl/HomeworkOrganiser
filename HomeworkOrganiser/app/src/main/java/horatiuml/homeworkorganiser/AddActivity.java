@@ -52,7 +52,7 @@ public class AddActivity extends AppCompatActivity {
         String deadline = mDeadline.getText().toString();
         String grade = mGrade.getText().toString();
 
-        String REQUEST_URL = "http://10.0.2.2:5000/api/Homework";
+        String REQUEST_URL = "http://10.0.2.2:5000/api/homeworks";
         Map<String,String> params = new HashMap<String,String>();
         params.put("title", title);
         params.put("description", description);
