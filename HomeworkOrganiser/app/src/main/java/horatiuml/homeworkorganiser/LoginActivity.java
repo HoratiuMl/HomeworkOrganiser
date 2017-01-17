@@ -14,7 +14,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -30,8 +29,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -55,7 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UserLogin mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -186,8 +195,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new UserLogin(email, password);
+            mAuthTask.execute();
         }
     }
 
@@ -295,52 +304,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
+    public class UserLogin {
         private final String mEmail;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
+        UserLogin(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        public void execute() {
+            String REQUEST_URL = "http://10.0.2.2:5000/api/users/login";
+            Map<String,String> params = new HashMap<String, String>();
+            params.put("email", mEmail);
+            params.put("password", mPassword);
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+            CustomRequest jsonObjectRequest = new CustomRequest(Request.Method.POST, REQUEST_URL, params,
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if(response.getBoolean("success")){
+                                    Intent myIntent = new Intent(LoginActivity.this, AddActivity.class);
+                                    LoginActivity.this.startActivity(myIntent);
+                                } else {
+                                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                                    mPasswordView.requestFocus();
+                                }
+                            } catch (JSONException e) {
+                                // TODO: Handle exception
+                                mAuthTask = null;
+                                showProgress(false);
+                                mPasswordView.setError(e.getMessage());
+                                mPasswordView.requestFocus();
+                            }
+                        }
+                    }, new Response.ErrorListener(){
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // TODO: Handle error response
+                    mAuthTask = null;
+                    showProgress(false);
+                    mPasswordView.setError(error.getMessage());
+                    mPasswordView.requestFocus();
                 }
-            }
+            });
 
-            // TODO: register the new account here.
-            return false;
-        }
+            jsonObjectRequest.setTag("LoginTag");
 
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-
-                Intent myIntent = new Intent(LoginActivity.this, AddActivity.class);
-                LoginActivity.this.startActivity(myIntent);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
+            Volley.newRequestQueue(LoginActivity.this).add(jsonObjectRequest);
         }
     }
 }
