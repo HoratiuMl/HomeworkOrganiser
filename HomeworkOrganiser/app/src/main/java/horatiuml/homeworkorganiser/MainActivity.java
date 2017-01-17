@@ -3,6 +3,7 @@ package horatiuml.homeworkorganiser;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -77,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
         // DataBind ListView with items from ArrayAdapter
         mListViewHomeworks.setAdapter(arrayAdapter);
 
-        String REQUEST_URL = "http://10.0.2.2:5000/api/homeworks";
+        String REQUEST_URL = "http://10.0.2.2:5000/api/homeworks/byUser/" + userId;
         Map<String,String> params = new HashMap<String,String>();
-        params.put("get", "all");
+        params.put("userId", userId);
 
-        CustomRequestArray jsonObjectRequest = new CustomRequestArray(Request.Method.GET, REQUEST_URL, params,
+        CustomRequestArray jsonArrayRequest = new CustomRequestArray(Request.Method.GET, REQUEST_URL, params,
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
@@ -110,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        jsonObjectRequest.setTag("GetTag");
+        jsonArrayRequest.setTag("GetTag");
 
-        Volley.newRequestQueue(MainActivity.this).add(jsonObjectRequest);
+        Volley.newRequestQueue(MainActivity.this).add(jsonArrayRequest);
 
         mListViewHomeworks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
