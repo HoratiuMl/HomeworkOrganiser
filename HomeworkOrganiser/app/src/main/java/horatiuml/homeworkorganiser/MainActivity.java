@@ -33,14 +33,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListViewHomeworks = (ListView)findViewById(R.id.listViewHomeworks);
+
         Button mNew = (Button) findViewById(R.id.buttonNew);
-                mNew.setOnClickListener(new View.OnClickListener() {
+        Button mRefresh = (Button) findViewById(R.id.buttonRefresh);
+
+        mNew.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent myIntent = new Intent(MainActivity.this, AddActivity.class);
-                        MainActivity.this.startActivity(myIntent);
-                    }
+                        MainActivity.this.startActivity(myIntent);}
                 });
+        mRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadHomeworks();
+            }
+        });
 
         loadHomeworks();
     }
