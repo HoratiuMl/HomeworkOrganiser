@@ -46,6 +46,7 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveHomework();
+                finish();
             }
         });
         mCancel.setOnClickListener(new View.OnClickListener() {

@@ -44,6 +44,7 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addHomework();
+                finish();
             }
         });
         mCancel.setOnClickListener(new View.OnClickListener() {

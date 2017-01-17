@@ -53,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
         loadHomeworks();
     }
 
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+        loadHomeworks();
+    }
+
     private void loadHomeworks() {
         // Create a List from String Array elements
         final List<HomeworkListItem> fruits_list = new ArrayList<HomeworkListItem>();
