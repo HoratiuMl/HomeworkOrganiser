@@ -55,13 +55,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world", "foo@bar.com:foobar", "hello@world.com:helloworld"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLogin mAuthTask = null;
@@ -325,7 +318,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         public void onResponse(JSONObject response) {
                             try {
                                 if(response.getBoolean("success")){
-                                    Intent myIntent = new Intent(LoginActivity.this, AddActivity.class);
+                                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                                     LoginActivity.this.startActivity(myIntent);
                                 } else {
                                     mPasswordView.setError(getString(R.string.error_incorrect_password));

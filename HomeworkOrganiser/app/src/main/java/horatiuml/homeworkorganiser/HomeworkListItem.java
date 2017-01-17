@@ -1,13 +1,12 @@
 package horatiuml.homeworkorganiser;
 
-public class Homework {
+public class HomeworkListItem {
     private String id;
     private String title;
 
-    public Homework(String id, String title, String description) {
+    public HomeworkListItem(String id, String title) {
         this.id = id;
         this.title = title;
-        this.description = description;
     }
 
     public String getId() {
@@ -26,14 +25,9 @@ public class Homework {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    @Override
+    public String toString() {
 
-    public void setDescription(String description) {
-        this.description = description;
+        return title;
     }
-
-    private String description;
 }
-
