@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListViewHomeworks = (ListView)findViewById(R.id.listViewHomeworks);
+        Button mNew = (Button) findViewById(R.id.buttonNew);
+                mNew.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent myIntent = new Intent(MainActivity.this, AddActivity.class);
+                        MainActivity.this.startActivity(myIntent);
+                    }
+                });
 
 
         // Create a List from String Array elements

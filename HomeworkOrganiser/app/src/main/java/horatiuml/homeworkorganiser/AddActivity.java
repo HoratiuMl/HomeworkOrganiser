@@ -38,10 +38,18 @@ public class AddActivity extends AppCompatActivity {
         mGrade = (EditText)findViewById(R.id.editTextGrade);
 
         Button mAdd = (Button) findViewById(R.id.addButton);
+        Button mCancel = (Button) findViewById(R.id.cancelButton);
+
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addHomework();
+            }
+        });
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
