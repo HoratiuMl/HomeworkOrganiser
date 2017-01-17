@@ -2,7 +2,10 @@ package horatiuml.homeworkorganiser;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -78,5 +81,14 @@ public class MainActivity extends AppCompatActivity {
         jsonObjectRequest.setTag("GetTag");
 
         Volley.newRequestQueue(MainActivity.this).add(jsonObjectRequest);
+
+        mListViewHomeworks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                HomeworkListItem hli = arrayAdapter.getItem(position);
+                // TODO: Open the selected item in the edit activity
+            }
+        });
     }
 }
