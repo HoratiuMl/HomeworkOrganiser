@@ -1,5 +1,6 @@
 package horatiuml.homeworkorganiser;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -88,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                                     long id) {
                 HomeworkListItem hli = arrayAdapter.getItem(position);
                 // TODO: Open the selected item in the edit activity
+                Intent myIntent = new Intent(MainActivity.this, EditActivity.class);
+                myIntent.putExtra("HOMEWORKID", hli.getId());
+                MainActivity.this.startActivity(myIntent);
             }
         });
     }

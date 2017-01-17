@@ -16,4 +16,5 @@
     </string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_add">AddActivity</string>
+    <string name="title_activity_edit">EditActivity</string>
 </resources>
