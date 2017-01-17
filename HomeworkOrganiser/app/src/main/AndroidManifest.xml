@@ -25,7 +25,10 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".AddActivity" />
-        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".EditActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"></activity>
     </application>
 
 </manifest>

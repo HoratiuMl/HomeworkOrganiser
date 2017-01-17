@@ -14,6 +14,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLogin mAuthTask = null;
+    private UserRegister mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -68,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -78,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptRegister();
                     return true;
                 }
                 return false;
@@ -86,19 +87,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        Button mEmailRegisterButton = (Button) findViewById(R.id.email_register_button);
-
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-        mEmailRegisterButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(myIntent);
+                attemptRegister();
             }
         });
 
@@ -155,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
         if (mAuthTask != null) {
             return;
         }
@@ -197,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLogin(email, password);
+            mAuthTask = new UserRegister(email, password);
             mAuthTask.execute();
         }
     }
@@ -285,7 +277,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -306,19 +298,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLogin {
+    public class UserRegister {
         private final String mEmail;
         private final String mPassword;
 
-        UserLogin(String email, String password) {
+        UserRegister(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
 
         public void execute() {
-            String REQUEST_URL = "http://10.0.2.2:5000/api/users/login";
+            String REQUEST_URL = "http://10.0.2.2:5000/api/users";
             Map<String,String> params = new HashMap<String, String>();
             params.put("email", mEmail);
+            params.put("name", mEmail.substring(0, mEmail.indexOf('@')));
             params.put("password", mPassword);
 
             CustomRequest jsonObjectRequest = new CustomRequest(Request.Method.POST, REQUEST_URL, params,
@@ -329,11 +322,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 Boolean success = response.getBoolean("success");
 
                                 if (success){
-                                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                                    LoginActivity.this.startActivity(myIntent);
                                     finish();
                                 } else {
-                                    mPasswordView.setError(getString(R.string.error_incorrect_credentials));
+                                    mPasswordView.setError(getString(R.string.error_incorrect_registration_details));
                                     mPasswordView.requestFocus();
                                 }
                             } catch (JSONException e) {
@@ -355,9 +346,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            jsonObjectRequest.setTag("LoginTag");
+            jsonObjectRequest.setTag("RegisterTag");
 
-            Volley.newRequestQueue(LoginActivity.this).add(jsonObjectRequest);
+            Volley.newRequestQueue(RegisterActivity.this).add(jsonObjectRequest);
         }
     }
 }
