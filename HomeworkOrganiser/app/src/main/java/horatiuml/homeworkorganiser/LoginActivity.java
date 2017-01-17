@@ -320,14 +320,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 if(response.getBoolean("success")){
                                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                                     LoginActivity.this.startActivity(myIntent);
+                                    finish();
                                 } else {
                                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                                     mPasswordView.requestFocus();
                                 }
                             } catch (JSONException e) {
                                 // TODO: Handle exception
-                                mAuthTask = null;
-                                showProgress(false);
                                 mPasswordView.setError(e.getMessage());
                                 mPasswordView.requestFocus();
                             }
@@ -337,12 +336,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // TODO: Handle error response
-                    mAuthTask = null;
-                    showProgress(false);
                     mPasswordView.setError(error.getMessage());
                     mPasswordView.requestFocus();
                 }
             });
+
+            mAuthTask = null;
+            showProgress(false);
 
             jsonObjectRequest.setTag("LoginTag");
 

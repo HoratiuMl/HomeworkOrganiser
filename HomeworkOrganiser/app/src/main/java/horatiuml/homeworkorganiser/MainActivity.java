@@ -27,7 +27,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     ListView mListViewHomeworks;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        loadHomeworks();
+    }
 
+    private void loadHomeworks() {
         // Create a List from String Array elements
         final List<HomeworkListItem> fruits_list = new ArrayList<HomeworkListItem>();
 
