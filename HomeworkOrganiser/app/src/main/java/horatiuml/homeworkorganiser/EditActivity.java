@@ -40,6 +40,7 @@ public class EditActivity extends AppCompatActivity {
 
         Button mSave = (Button) findViewById(R.id.buttonSave);
         Button mCancel = (Button) findViewById(R.id.buttonCancel);
+        Button mDelete = (Button) findViewById(R.id.buttonDelete);
 
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,11 +48,16 @@ public class EditActivity extends AppCompatActivity {
                 saveHomework();
             }
         });
-
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteHomework(); finish();
             }
         });
 
@@ -94,6 +100,7 @@ public class EditActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(EditActivity.this).add(jsonObjectRequest);
     }
+
     public void saveHomework() {
         String title = mTitle.getText().toString();
         String description = mDescription.getText().toString();
@@ -122,6 +129,30 @@ public class EditActivity extends AppCompatActivity {
         });
 
         jsonObjectRequest.setTag("EditTag");
+
+        Volley.newRequestQueue(EditActivity.this).add(jsonObjectRequest);
+    }
+
+    public void deleteHomework() {
+        String REQUEST_URL = "http://10.0.2.2:5000/api/homeworks/" + homeworkId;
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("delete", "this");
+
+        CustomRequest jsonObjectRequest = new CustomRequest(Request.Method.DELETE, REQUEST_URL, params,
+                new Response.Listener<JSONObject>(){
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // TODO: Inform the user whether the request was made successfully or not
+                    }
+                }, new Response.ErrorListener(){
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO: Handle error response
+            }
+        });
+
+        jsonObjectRequest.setTag("DeleteTag");
 
         Volley.newRequestQueue(EditActivity.this).add(jsonObjectRequest);
     }
