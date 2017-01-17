@@ -329,7 +329,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 Boolean success = response.getBoolean("success");
 
                                 if (success){
+                                    String userId = response.getString("userId");
+
                                     Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                    myIntent.putExtra("USERID", userId);
+
                                     LoginActivity.this.startActivity(myIntent);
                                     finish();
                                 } else {

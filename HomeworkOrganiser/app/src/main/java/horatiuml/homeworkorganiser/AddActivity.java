@@ -27,6 +27,8 @@ public class AddActivity extends AppCompatActivity {
     private EditText mDeadline;
     private EditText mGrade;
 
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,8 @@ public class AddActivity extends AppCompatActivity {
         mDescription = (EditText)findViewById(R.id.editTextDescription);
         mDeadline = (EditText)findViewById(R.id.editTextDeadline);
         mGrade = (EditText)findViewById(R.id.editTextGrade);
+
+        userId = (String)getIntent().getSerializableExtra("USERID");
 
         Button mAdd = (Button) findViewById(R.id.addButton);
         Button mCancel = (Button) findViewById(R.id.cancelButton);
@@ -63,6 +67,7 @@ public class AddActivity extends AppCompatActivity {
 
         String REQUEST_URL = "http://10.0.2.2:5000/api/homeworks";
         Map<String,String> params = new HashMap<String,String>();
+        params.put("userId", userId);
         params.put("title", title);
         params.put("description", description);
         params.put("deadline", deadline);

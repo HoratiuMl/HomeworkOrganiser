@@ -27,12 +27,16 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     ListView mListViewHomeworks;
 
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mListViewHomeworks = (ListView)findViewById(R.id.listViewHomeworks);
+
+        userId = (String)getIntent().getSerializableExtra("USERID");
 
         Button mNew = (Button) findViewById(R.id.buttonNew);
         Button mRefresh = (Button) findViewById(R.id.buttonRefresh);
@@ -41,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent myIntent = new Intent(MainActivity.this, AddActivity.class);
+                        myIntent.putExtra("USERID", userId);
+
                         MainActivity.this.startActivity(myIntent);}
                 });
         mRefresh.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 HomeworkListItem hli = arrayAdapter.getItem(position);
                 // TODO: Open the selected item in the edit activity
                 Intent myIntent = new Intent(MainActivity.this, EditActivity.class);
+                myIntent.putExtra("USERID", userId);
                 myIntent.putExtra("HOMEWORKID", hli.getId());
+
                 MainActivity.this.startActivity(myIntent);
             }
         });

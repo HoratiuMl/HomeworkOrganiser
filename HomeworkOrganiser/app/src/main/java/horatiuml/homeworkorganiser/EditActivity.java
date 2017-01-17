@@ -24,6 +24,7 @@ public class EditActivity extends AppCompatActivity {
     private EditText mDeadline;
     private EditText mGrade;
 
+    private String userId;
     private String homeworkId;
 
     @Override
@@ -36,6 +37,7 @@ public class EditActivity extends AppCompatActivity {
         mDeadline = (EditText)findViewById(R.id.editTextDeadline);
         mGrade = (EditText)findViewById(R.id.editTextGrade);
 
+        userId = (String)getIntent().getSerializableExtra("USERID");
         homeworkId = (String)getIntent().getSerializableExtra("HOMEWORKID");
 
         Button mSave = (Button) findViewById(R.id.buttonSave);
