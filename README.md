@@ -1,6 +1,8 @@
 # About
 This application allows students to organise their assigned homeworks, in a manner very similar to a to-do list application.
 
+The API can be found here: https://github.com/HoratiuMl/HomeworkOrganiserAPI
+
 # Planned features
 - Registering new subjects and homeworks
 - Homework deadline calendar
