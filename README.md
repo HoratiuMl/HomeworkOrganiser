@@ -1,3 +1,7 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+This was a homework project. I have no intention of finishing or continuing this idea, as I don't have homeworks anymore. YOLO.
+
 # About
 This application allows students to organise their assigned homeworks, in a manner very similar to a to-do list application.
 
